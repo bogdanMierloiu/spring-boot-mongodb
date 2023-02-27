@@ -9,6 +9,7 @@ import ro.bogdanmierloiu.springbootmongodb.model.TodoDTO;
 import ro.bogdanmierloiu.springbootmongodb.repository.TodoRepository;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,8 +48,10 @@ public class TodoServiceImpl implements TodoService {
     public void updateTodo(String id, TodoDTO todo) throws TodoCollectionException {
         TodoDTO todoToUpdate = todoRepository.findById(id).orElseThrow(
                 () -> new TodoCollectionException(TodoCollectionException.NotFoundException(id)));
-        if (todoToUpdate.getTodo().equals(todo.getTodo())) {
-            throw new TodoCollectionException(TodoCollectionException.todoAlreadyExists());
+        for (TodoDTO tody : todoRepository.findByDate(todoToUpdate.getCreatedAt())) {
+            if (tody.getTodo().equals(todo.getTodo())) {
+                throw new TodoCollectionException(TodoCollectionException.todoAlreadyExists());
+            }
         }
         todoToUpdate.setTodo(todo.getTodo() != null ? todo.getTodo() : todoToUpdate.getTodo());
         todoToUpdate.setDescription(todo.getDescription() != null ? todo.getDescription() : todoToUpdate.getDescription());
@@ -63,4 +66,12 @@ public class TodoServiceImpl implements TodoService {
                 () -> new TodoCollectionException(TodoCollectionException.NotFoundException(id)));
         todoRepository.delete(todoToDelete);
     }
+
+    @Override
+    public List<TodoDTO> findByDate(String date) {
+        LocalDate createdAt = LocalDate.parse(date);
+        return todoRepository.findByDate(createdAt);
+    }
+
+
 }

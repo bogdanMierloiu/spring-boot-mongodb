@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintViolationException;
 import ro.bogdanmierloiu.springbootmongodb.exception.TodoCollectionException;
 import ro.bogdanmierloiu.springbootmongodb.model.TodoDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TodoService {
@@ -17,4 +18,6 @@ public interface TodoService {
     void updateTodo(String id, TodoDTO todo) throws TodoCollectionException;
 
     void deleteTodo(String id) throws TodoCollectionException;
+
+    List<TodoDTO> findByDate(String date);
 }
