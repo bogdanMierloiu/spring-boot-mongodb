@@ -15,6 +15,7 @@ target/
 
 ### IntelliJ IDEA ###
 target
+src/main/resources/application.properties
 .idea
 *.iws
 *.iml
@@ -34,5 +35,3 @@ build/
 .vscode/
 
 
-src/main/resources/application.properties
-target
