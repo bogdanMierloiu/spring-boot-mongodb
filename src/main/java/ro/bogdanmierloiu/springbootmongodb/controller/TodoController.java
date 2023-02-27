@@ -82,10 +82,15 @@ public class TodoController {
     public ResponseEntity<?> findByDate(@RequestParam String date) {
         try {
             return new ResponseEntity<>(
-                    todoService.findByDate(date).size()>0 ? todoService.findByDate(date) : "No records for this date", HttpStatus.OK);
+                    todoService.findByDate(date).size() > 0 ? todoService.findByDate(date) : "No records for this date", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/todos/nothing")
+    public void test() {
+
     }
 
 }
